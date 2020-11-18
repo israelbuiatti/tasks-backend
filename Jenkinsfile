@@ -70,6 +70,13 @@ pipeline {
                 deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://tomcat-prod:8080/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
             }
         }
+        stage ('Deploy Frontend PROD') {
+            steps {
+                dir('frontend') {
+                    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://tomcat-prod:8080/')], contextPath: 'tasks', war: 'target/tasks.war'
+                }
+            }
+        }
         stage ('Health Check') {
             steps {
                 sleep(5)
