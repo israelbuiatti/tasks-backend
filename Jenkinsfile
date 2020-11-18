@@ -59,10 +59,15 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Prod') {
+        // stage('Deploy Prod') {
+        //     steps {
+        //         sh 'docker-compose build'
+        //         sh 'docker-compose up -d'
+        //     }
+        // }
+        stage ('Deploy Backend PROD') {
             steps {
-                sh 'docker-compose build'
-                sh 'docker-compose up -d'
+                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://tomcat-prod:8080/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
             }
         }
         stage ('Health Check') {
